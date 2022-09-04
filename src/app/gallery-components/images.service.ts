@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ImagesService {
-  //Base URL of flicker API
+  photosArray: IPhoto[] = [];
 
   //#region APIKey
   private _baseUrl =
@@ -26,7 +26,7 @@ export class ImagesService {
   }
 
   //The Search Text
-  private _searchText: string;
+  private _searchText: string = '';
 
   //Getter
   get searchText(): string {
@@ -43,7 +43,7 @@ export class ImagesService {
     }
   }
 
-  private _currentPage: number;
+  private _currentPage: number = 1;
   //Getter
   get currentPage(): number {
     return this._currentPage;
@@ -56,21 +56,9 @@ export class ImagesService {
       console.log(this.searchText);
       this._currentPage = currPage;
     }
-    // else {
-    //   this._currentPage = 1;
-    // }
   }
 
   //#region Params
-  private _params = `api_key=${environment.apiKey}`;
-  get params() {
-    return this._params;
-  }
-  set params(params) {
-    // this._params = `api_key=${environment.apiKey}&text=${this.searchText}&format=${this._format}&nojsoncallback=1&per_page=10&page=${this.currentPage}`;
-    // this._params = params;
-  }
-  photosArray: IPhoto[] = [];
 
   //#endregion
   constructor(private http: HttpClient) {}
@@ -96,7 +84,6 @@ export class ImagesService {
       params = params.append('page', 1);
     }
 
-    console.log(this.params);
     return this.http.get<IResponse>(this.baseUrl, { params: params }).pipe(
       map((resp: IResponse) => {
         return resp.photos.photo;

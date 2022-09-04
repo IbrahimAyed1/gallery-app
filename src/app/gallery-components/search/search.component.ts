@@ -10,24 +10,26 @@ import { IPhoto } from '../Photo.model';
   styleUrls: ['./search.component.scss'],
 })
 export class SearchComponent implements OnInit {
-  constructor(private _imagesService: ImagesService) {}
+  searchString: string = '';
+  pageNumber: number = 1;
   photosArray: IPhoto[] = [];
-  // photos$: Observable<IPhoto[]> = this._imagesService.photos$;
+
+  constructor(private _imagesService: ImagesService) {}
   ngOnInit(): void {
     this.getPhotos();
-    // this.search();
   }
-  searchString: string = '';
+
   search() {
     console.log(this.searchString);
-    let pageNumber = 1;
     this._imagesService.searchText = this.searchString;
-    this._imagesService.currentPage = pageNumber;
+    this._imagesService.currentPage = this.pageNumber;
     this.photosMappedURLs = [];
     this.getPhotos();
-    // setInterval(() => {
-    //   pageNumber++;
-    // }, 10000);
+  }
+  onScroll() {
+    this.pageNumber++;
+    this._imagesService.currentPage = this.pageNumber;
+    this.getPhotos();
   }
   photosMappedURLs: IPhotoUrl[] = [];
   getPhotos() {
@@ -37,11 +39,8 @@ export class SearchComponent implements OnInit {
           ...this.photosMappedURLs,
           ...this.mapPhotos(resp),
         ];
-        // console.log(this.photosArray);
       },
-      (error) => {
-        console.log(error);
-      }
+      (error) => {}
     );
   }
 
