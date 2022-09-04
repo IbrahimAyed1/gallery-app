@@ -1,62 +1,63 @@
-<!-- <p *ngFor="let item of photosMappedURLs; let i = index">{{ item.title }}</p> -->
-<div class="row fixed-top bg-secondary justify-content-center bg-white">
-  <div class="col-md-4 p-2">
-    <div class="input-group rounded">
-      <input
-        type="text"
-        class="form-control rounded"
-        placeholder="Search"
-        aria-label="Search"
-        aria-describedby="search-addon"
-        [(ngModel)]="searchString"
-        (change)="search()"
-      />
+<div class="container">
+  <div class="row fixed-top bg-secondary justify-content-center bg-white">
+    <div class="col-md-4 p-2">
+      <div class="input-group rounded">
+        <input
+          type="text"
+          class="form-control rounded"
+          placeholder="Search"
+          aria-label="Search"
+          aria-describedby="search-addon"
+          [(ngModel)]="searchString"
+          (change)="search()"
+        />
+        <img
+          class="input-group-text"
+          src="assets/search.png"
+          alt="Search Icon"
+          style="width: 50px"
+        />
+      </div>
+    </div>
+  </div>
+  <ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">
+        {{ currenttImage.title }}!
+      </h4>
+    </div>
+    <div class="modal-body">
       <img
-        class="input-group-text"
-        src="assets/search.png"
-        alt="Search Icon"
-        style="width: 50px"
+        [src]="currenttImage.url + '.jpg'"
+        class="w-100 shadow-1-strong rounded mb-4 img-fluid"
+        [alt]="currenttImage.title"
+      />
+    </div>
+  </ng-template>
+  <!-- Gallery -->
+  <div class="row">
+    <div
+      *ngFor="let item of photosMappedURLs; let i = index"
+      class="shadow-box col-lg-4 mb-4 mb-lg-0"
+      [ngClass]="{ 'col-md-12': i % 2 != 0 }"
+    >
+      <img
+        (click)="open(content, item)"
+        [src]="item.url + '.jpg'"
+        class="w-100 shadow-1-strong rounded mb-4 img-fluid"
+        [alt]="item.title"
       />
     </div>
   </div>
-</div>
-<ng-template #content let-c="close" let-d="dismiss">
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">
-      {{ currenttImage.title }}!
-    </h4>
-  </div>
-  <div class="modal-body">
-    <img
-      [src]="currenttImage.url + '.jpg'"
-      class="w-100 shadow-1-strong rounded mb-4 img-fluid"
-      [alt]="currenttImage.title"
-    />
-  </div>
-</ng-template>
-<!-- Gallery -->
-<div class="row">
-  <div
-    *ngFor="let item of photosMappedURLs; let i = index"
-    class="shadow-box col-lg-4 mb-4 mb-lg-0"
-    [ngClass]="{ 'col-md-12': i % 2 != 0 }"
-  >
-    <img
-      (click)="open(content, item)"
-      [src]="item.url + '.jpg'"
-      class="w-100 shadow-1-strong rounded mb-4 img-fluid"
-      [alt]="item.title"
-    />
-  </div>
-</div>
-<!-- Gallery -->
+  <!-- Gallery -->
 
-<!--On Scroll-->
-<div
-  class="search-results"
-  infiniteScroll
-  [infiniteScrollDistance]="2"
-  [infiniteScrollThrottle]="50"
-  (scrolled)="onScroll()"
-></div>
-<!--/ On Scroll-->
+  <!--On Scroll-->
+  <div
+    class="search-results"
+    infiniteScroll
+    [infiniteScrollDistance]="2"
+    [infiniteScrollThrottle]="50"
+    (scrolled)="onScroll()"
+  ></div>
+  <!--/ On Scroll-->
+</div>
