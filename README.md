@@ -29,5 +29,5 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Instaled Libraries
 
-Ng Boosttrap (For adding features using it's API)
-Infinite Scroll Library for infinite scroll feature 
+1-Ng Boosttrap (For adding features using it's API)
+2-Infinite Scroll Library for infinite scroll feature 
