@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { ImagesService } from '../images.service';
 import { IPhoto } from '../Photo.model';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-search',
@@ -14,7 +15,10 @@ export class SearchComponent implements OnInit {
   pageNumber: number = 1;
   photosArray: IPhoto[] = [];
 
-  constructor(private _imagesService: ImagesService) {}
+  constructor(
+    private _imagesService: ImagesService,
+    private _modalService: NgbModal
+  ) {}
   ngOnInit(): void {
     this.getPhotos();
   }
@@ -26,11 +30,13 @@ export class SearchComponent implements OnInit {
     this.photosMappedURLs = [];
     this.getPhotos();
   }
+
   onScroll() {
     this.pageNumber++;
     this._imagesService.currentPage = this.pageNumber;
     this.getPhotos();
   }
+
   photosMappedURLs: IPhotoUrl[] = [];
   getPhotos() {
     this._imagesService.getPhotos().subscribe(
@@ -53,5 +59,11 @@ export class SearchComponent implements OnInit {
       photosUrls.push(photoAsUrl);
     });
     return photosUrls;
+  }
+  currenttImage: IPhotoUrl;
+  open(content: any, image: IPhotoUrl) {
+    this.currenttImage = image;
+    console.log(content);
+    this._modalService.open(content, { size: 'xl' });
   }
 }

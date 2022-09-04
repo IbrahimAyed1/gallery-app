@@ -1,5 +1,5 @@
 <!-- <p *ngFor="let item of photosMappedURLs; let i = index">{{ item.title }}</p> -->
-<div class="row fixed-top justify-content-center bg-white">
+<div class="row fixed-top bg-secondary justify-content-center bg-white">
   <div class="col-md-4 p-2">
     <div class="input-group rounded">
       <input
@@ -11,10 +11,29 @@
         [(ngModel)]="searchString"
         (change)="search()"
       />
+      <img
+        class="input-group-text"
+        src="assets/search.png"
+        alt="Search Icon"
+        style="width: 50px"
+      />
     </div>
   </div>
 </div>
-
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      {{ currenttImage.title }}!
+    </h4>
+  </div>
+  <div class="modal-body">
+    <img
+      [src]="currenttImage.url + '.jpg'"
+      class="w-100 shadow-1-strong rounded mb-4 img-fluid"
+      [alt]="currenttImage.title"
+    />
+  </div>
+</ng-template>
 <!-- Gallery -->
 <div class="row">
   <div
@@ -23,6 +42,7 @@
     [ngClass]="{ 'col-md-12': i % 2 != 0 }"
   >
     <img
+      (click)="open(content, item)"
       [src]="item.url + '.jpg'"
       class="w-100 shadow-1-strong rounded mb-4 img-fluid"
       [alt]="item.title"
